@@ -42,6 +42,7 @@ public class PrenotazioneService {
         prenotazioneNuova.setUtente(utente);
         prenotazioneNuova.setData(data);
         return prenotazioneRepository.save(prenotazioneNuova);
+
     }
 
     public List<Postazione> ricercaPostazioni(TipoPostazione tipo, String citta) {

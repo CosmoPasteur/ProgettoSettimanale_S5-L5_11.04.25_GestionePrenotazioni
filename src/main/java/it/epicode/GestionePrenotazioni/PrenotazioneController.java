@@ -22,4 +22,5 @@ public class PrenotazioneController {
     public List<Postazione> ricercaPostazioni(TipoPostazione tipo, String citta) {
         return prenotazioneService.ricercaPostazioni(tipo, citta);
     }
+
 }
