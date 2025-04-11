@@ -51,5 +51,50 @@ public class PrenotazioniRunner implements CommandLineRunner {
 
 
         System.out.println("Dati iniziali inseriti nel database.");
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Cerca postazioni per: ");
+        System.out.println("1. Città");
+        System.out.println("2. Tipo");
+        System.out.println("3. Id");
+
+        int scelta = scanner.nextInt();
+
+        switch (scelta) {
+            case 1:
+                System.out.println("Inserisci la città:");
+                String citta = scanner.next();
+                List<Postazione> postazioniPerCitta = postazioneRepository.findByEdificio_Citta(citta);
+
+                System.out.println("Postazioni trovate: " + postazioniPerCitta.size());
+                break;
+            case 2:
+                System.out.println("Inserisci il tipo di postazione (PRIVATO, OPENSPACE, SALA_RIUNIONE):");
+                TipoPostazione tipo = TipoPostazione.valueOf(scanner.next().toUpperCase());
+                List<Postazione> postazioniPerTipo = postazioneRepository.findByTipo(tipo);
+
+                System.out.println("Postazioni trovate: " + postazioniPerTipo.size());
+                for (Postazione p : postazioniPerTipo) {
+                    System.out.println(p);
+                }
+                break;
+            case 3:
+                //ricerca per id
+                System.out.println("Inserisci l'id della postazione:");
+                Long id = scanner.nextLong();
+                Postazione postazione = postazioneRepository.findById(id).orElse(null);
+                if (postazione != null) {
+                    System.out.println("Postazione trovata: " + postazione);
+                } else {
+                    System.out.println("Postazione non trovata.");
+                }
+                break;
+            default:
+                System.out.println("Scelta non valida.");
+                break;
+        }
+
+        scanner.close();
+
     }
 }
