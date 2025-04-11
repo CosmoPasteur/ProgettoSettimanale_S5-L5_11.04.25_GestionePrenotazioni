@@ -1,8 +1,13 @@
 package it.epicode.GestionePrenotazioni;
 
+import it.epicode.GestionePrenotazioni.edifici.Edificio;
+import it.epicode.GestionePrenotazioni.edifici.EdificioRepository;
 import it.epicode.GestionePrenotazioni.postazioniAziendali.Postazione;
+import it.epicode.GestionePrenotazioni.postazioniAziendali.PostazioneRepository;
 import it.epicode.GestionePrenotazioni.postazioniAziendali.TipoPostazione;
 import it.epicode.GestionePrenotazioni.prenotazioni.Prenotazione;
+import it.epicode.GestionePrenotazioni.utenti.Utente;
+import it.epicode.GestionePrenotazioni.utenti.UtenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -15,55 +20,36 @@ import java.util.Scanner;
 public class PrenotazioniRunner implements CommandLineRunner {
 
     @Autowired
-    private PrenotazioneController prenotazioneController;
+    private EdificioRepository edificioRepository;
+
+    @Autowired
+    private PostazioneRepository postazioneRepository;
+
+    @Autowired
+    private UtenteRepository utenteRepository;
 
     @Override
     public void run(String... args) throws Exception {
-        Scanner scanner = new Scanner(System.in);
-        PrenotazioneController prenotazioneController = new PrenotazioneController(); // Assicurati che sia inizializzato
+        Edificio edificio1 = new Edificio(null, "Edificio 1", "Via Roma 1", "Roma");
+        edificioRepository.save(edificio1);
 
-        System.out.println("Benvenuto nel sistema di gestione delle prenotazioni!");
-        System.out.println("Scegli un'opzione:");
-        System.out.println("1. Aggiungi una prenotazione");
-        System.out.println("2. Ricerca postazioni disponibili");
+        Postazione postazione1 = new Postazione(
+                null,                         // id
+                "POST-SALA-01",               // codice univoco
+                "Postazione Sala Riunioni",  // descrizione
+                TipoPostazione.SALA_RIUNIONE,
+                2,
+                edificio1
+        );
 
-        int scelta = scanner.nextInt();
-        scanner.nextLine(); // Consuma il newline
 
-        switch (scelta) {
-            case 1:
-                System.out.println("Aggiunta di una prenotazione");
+        postazioneRepository.save(postazione1);
 
-                System.out.print("Inserisci l'ID della postazione: ");
-                Long postazioneId = scanner.nextLong();
+        Utente utente1 = new Utente(null, "utente1", "Mario Rossi", "mario@example.com");
+        utenteRepository.save(utente1);
 
-                System.out.print("Inserisci l'ID dell'utente: ");
-                Long utenteId = scanner.nextLong();
 
-                System.out.print("Inserisci la data della prenotazione (yyyy-MM-dd): ");
-                LocalDate data = LocalDate.parse(scanner.next());
 
-                Prenotazione prenotazione = prenotazioneController.prenotaPostazione(postazioneId, utenteId, data);
-                System.out.println("Prenotazione effettuata: " + prenotazione);
-                break;
-
-            case 2:
-                System.out.println("Ricerca postazioni disponibili");
-
-                System.out.print("Inserisci il tipo di postazione (PRIVATO, OPENSPACE, SALA_RIUNIONI): ");
-                TipoPostazione tipo = TipoPostazione.valueOf(scanner.nextLine().toUpperCase());
-
-                System.out.print("Inserisci la città: ");
-                String citta = scanner.nextLine();
-
-                List<Postazione> postazioni = prenotazioneController.ricercaPostazioni(tipo, citta);
-                System.out.println("Postazioni trovate: " + postazioni);
-                break;
-
-            default:
-                System.out.println("Scelta non valida. Riprova.");
-        }
-
-        scanner.close();
+        System.out.println("Dati iniziali inseriti nel database.");
     }
 }

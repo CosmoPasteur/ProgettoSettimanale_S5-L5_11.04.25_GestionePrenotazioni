@@ -2,10 +2,14 @@ package it.epicode.GestionePrenotazioni.postazioniAziendali;
 
 import it.epicode.GestionePrenotazioni.edifici.Edificio;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Postazione {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
