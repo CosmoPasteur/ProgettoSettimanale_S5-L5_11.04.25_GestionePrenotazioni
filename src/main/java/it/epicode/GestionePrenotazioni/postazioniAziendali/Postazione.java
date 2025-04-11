@@ -1,6 +1,6 @@
-package it.epicode.GestionePrenotazioni.postazioneAziendale;
+package it.epicode.GestionePrenotazioni.postazioniAziendali;
 
-import it.epicode.GestionePrenotazioni.edificio.Edificio;
+import it.epicode.GestionePrenotazioni.edifici.Edificio;
 import jakarta.persistence.*;
 import lombok.Data;
 

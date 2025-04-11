@@ -1,4 +1,4 @@
-package it.epicode.GestionePrenotazioni.edificio;
+package it.epicode.GestionePrenotazioni.edifici;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
